@@ -13,7 +13,7 @@
         },
         "inRepository": false,
         "translatorType": 3,
-        "lastUpdated": "2011-12-23 12:30:00"
+        "lastUpdated": "2011-12-23 13:00:00"
 }
 
 /* Quick Copy or Drag & Drop BibTeX-style cite commands, such as "\cite{key}" from Zotero
@@ -50,7 +50,7 @@
  *   http://www.zotero.org/support/dev/translators/coding#calling_other_translators
  */
 
-var citeCommand = "\\citep"; //jaw -- specify preferred cite command (escape the backslash).
+var citeCommand = "\\cite"; //jaw -- specify preferred cite command (escape the backslash).
 var keySep      = ", ";      //jaw -- used to separate multiple keys within the command above.
 /*jaw  
  * Multiple keys will be separated by `keySep`: default is a comma + space ", "
