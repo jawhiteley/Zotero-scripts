@@ -13,7 +13,7 @@
         },
         "inRepository": false,
         "translatorType": 3,
-        "lastUpdated": "2011-12-23 11:00:00"
+        "lastUpdated": "2011-12-24 08:30:00"
 }
 
 /* This is a modified version of the BibTeX translator for Zotero v2.1.10, by Simon Kornblith and Richard Karnesky.
@@ -28,6 +28,22 @@
  * - citation keys are extracted from the first line of the specified field in Zotero (`citeKeyField`) on export,
  *   and pre-pended to the first line of this same field on import.
  */
+
+
+//%a = first author surname
+//%y = year
+//%t = first word of title
+//%p = start page       //jaw
+//%b = abbrev. source?  //jaw
+var citeKeyFormat = "%a:%y.%t";     //jaw - custom format for auto-generated keys
+var citeKeyField  = "extra";        //jaw - which field in Zotero contains existing keys?
+/*jaw 
+ * Prefix & suffix to wrap cite key in when in a misc. field like 'extra'.
+ * This would make it easier to find anywhere in the field, and avoid ambiguity with other content
+ * CURRENTLY UNUSED.  Either: wrap the cite key and look for it anywhere, or rely on it being the first line.
+ */
+var citeKeyPrefix = "";             //jaw
+var citeKeySuffix = "";             //jaw
 
 
 function detectImport() {
@@ -71,21 +87,6 @@ function detectImport() {
 		}
 	}
 }
-
-//%a = first author surname
-//%y = year
-//%t = first word of title
-//%p = start page       //jaw
-//%b = abbrev. source?  //jaw
-var citeKeyFormat = "%a:%y.%t";     //jaw - custom format for auto-generated keys
-var citeKeyField  = "extra";        //jaw - which field in Zotero contains existing keys?
-/*jaw 
- * Prefix & suffix to wrap cite key in when in a misc. field like 'extra'.
- * This would make it easier to find anywhere in the field, and avoid ambiguity with other content
- * CURRENTLY UNUSED.  Either: wrap the cite key and look for it anywhere, or rely on it being the first line.
- */
-var citeKeyPrefix = "";             //jaw
-var citeKeySuffix = "";             //jaw
 
 var fieldMap = {
 	address:"place",
