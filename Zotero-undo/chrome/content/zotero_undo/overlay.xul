@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://zotero_undo/skin/overlay.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://zotero_undo/locale/zundo.dtd">
+
+<overlay id="zotero_undo-overlay"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<stringbundleset id="stringbundleset">
+		<stringbundle id="undo-zotero-strings"
+			src="chrome://zotero_undo/locale/zundo.properties"/>
+	</stringbundleset>
+	
+	<menupopup id="zotero-tb-actions-popup">
+		<!-- Make sure the menu separator for utilities is visible -->
+		<menuseparator id="zotero-tb-actions-plugins-separator" hidden="false"/>
+		<menuitem insertbefore="zotero-tb-actions-separator" label="&zotero_undo.name;"
+			oncommand="Zotero.ZoteroUndo.Undo()"/>
+		<menuitem insertbefore="zotero-tb-actions-separator" label="&zotero_redo.name;"
+			oncommand="Zotero.ZoteroUndo.Redo()"/>
+	</menupopup>
+	
+	<!-- Include the main extension logic -->
+	<script src="chrome://zotero/content/include.js"/>
+	<script src="chrome://zotero_undo/content/include.js"/>
+</overlay>

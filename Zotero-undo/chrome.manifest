@@ -1,0 +1,5 @@
+content	zotero_undo				chrome/content/zotero_undo/
+locale	zotero_undo	en-US		chrome/locale/en-US/zotero_undo/
+skin	zotero_undo	default		chrome/skin/default/zotero_undo/
+
+overlay	chrome://zotero/content/zoteroPane.xul	chrome://zotero_undo/content/overlay.xul
