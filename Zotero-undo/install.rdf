@@ -4,11 +4,7 @@
 	
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>zotero_undo@jonathanwhiteley.com</em:id>
-		<em:name>Undo Plugin for Zotero</em:name>
 		<em:version>0.0</em:version>
-		<em:description>A plugin for Zotero to add basic Undo commands</em:description>
-		<em:creator>Jonathan Whiteley<br/>McGill University</em:creator>
-        <em:updateURL>https://github.com/jawhiteley/</em:updateURL>
 		<em:type>2</em:type> <!-- type=extension -->
 		
 		<!-- Requires Zotero -->
@@ -37,5 +33,12 @@
 				<em:maxVersion>3.0.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
+
+        <!-- Front End MetaData -->
+		<em:name>Undo Plugin for Zotero</em:name>
+		<em:description>A plugin for Zotero to add basic Undo commands</em:description>
+		<em:creator>Jonathan Whiteley<br/>McGill University</em:creator>
+        <em:homepageURL>https://github.com/jawhiteley/</em:homepageURL>
+        <em:updateURL>https://github.com/jawhiteley/</em:updateURL>
 	</Description>
 </RDF>
