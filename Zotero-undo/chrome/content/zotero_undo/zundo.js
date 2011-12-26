@@ -56,7 +56,11 @@ Zotero.ZoteroUndo = {
 			if (event == 'add' || event == 'modify' || event == 'delete') {
 				// Increment a counter every time an item is changed
 				// Zotero.HelloWorldZotero.DB.query("UPDATE changes SET num = num + 1");
-				
+                /*
+                var newItems = Zotero.Items.get(ids);
+                var oldItems = extraData;
+				*/
+                
 				if (event != 'delete') {
 					// Retrieve the added/modified items as Item objects
 					var items = Zotero.Items.get(ids);
@@ -64,6 +68,7 @@ Zotero.ZoteroUndo = {
 				else {
 					var items = extraData;
 				}
+                // items = oldItems;
 				
 				// Loop through array of items and grab titles
 				var titles = [];
@@ -75,6 +80,16 @@ Zotero.ZoteroUndo = {
 					else {
 						titles.push(item.getField('title'));
 					}
+				}
+
+                // collect old items from `extraData`? X
+                // What is in `extraData`, anyway??
+                var oldItems = [];
+				for each(var item in extraData) {
+                    // item seems to be the id of the modified item?
+                    for (var ppty in item) {
+                      oldItems.push(ppty);  // item undefined?
+                    }
 				}
 				
 				if (!titles.length) {
@@ -103,7 +118,7 @@ Zotero.ZoteroUndo = {
 					titles.join("\n");
 			}
 			
-			alert(str);
+			alert(str + "\n\n" + event + "\n" + type + "\n" + ids + "\n" + extraData + "\n" + oldItems);
 		}
 	}
 };
