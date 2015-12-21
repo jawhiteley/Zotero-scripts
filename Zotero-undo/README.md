@@ -1,6 +1,7 @@
 # ZOTERO UNDO Plugin
 
 Simple plugin to track changes as they are made in Zotero, and allow "Undo" & "Redo" commands for common tasks.
+This is a proto-idea and not even close to functional yet.
 Basic goal: track changes to individual records and provide undo command to reverse them. 
 
 Based on the [Hello World](https://github.com/zotero/zotero-hello-world) [sample plugin](https://www.zotero.org/support/dev/sample_plugin) (zotero-zotero-hello-world-389f862).
@@ -17,6 +18,10 @@ See also:
   + <https://www.zotero.org/support/dev/sample_plugin>
 + Records a history of changes
   + save item states before & after each change?  
+    - if prior state can not be captured on change, will I need to store copies *before* changes are made?
+      - e.g. on item selection?
+      - when a field is selected for editing?
+      - something should be possible: <http://forums.zotero.org/discussion/18166/2/zotero-item-history-plugin/>
   + As javascript objects?  or in sqlite database?
   + As a 'stack' of changes?
   + change history is reset
@@ -30,11 +35,11 @@ See also:
 
 # TODO
 
-- Test installation
-  - <https://developer.mozilla.org/en/Building_an_Extension>
-  - Testing: copy `zotero_undo@jonathanwhiteley.com` to the `extensions` folder in Firefox Profile
++ Test installation
+  + <https://developer.mozilla.org/en/Building_an_Extension>
+  + Testing: copy `zotero_undo@jonathanwhiteley.com` to the `extensions` folder in Firefox Profile
 - Experiment with Notifier
-  - Receive changes as they are made
+  + Receive changes as they are made
   - change type
     - add
     - modify

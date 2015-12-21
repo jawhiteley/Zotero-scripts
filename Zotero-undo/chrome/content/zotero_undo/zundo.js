@@ -12,7 +12,7 @@
  */
 
 Zotero.ZoteroUndo = {
-	DB: null,
+	// DB: null,
 	
 	init: function () {
 		// Connect to (and create, if necessary) zundo.sqlite in the Zotero directory
@@ -75,11 +75,12 @@ Zotero.ZoteroUndo = {
 				for each(var item in items) {
 					// For deleted items, get title from passed data
 					if (event == 'delete') {
-						titles.push(item.old.title ? item.old.title : '[No title]');
+						titles.push(item.old.title ? item.old.title : '[No title]'); // what is `item.old`?
 					}
 					else {
 						titles.push(item.getField('title'));
 					}
+                    // titles.push(item.old.title ? item.old.title : '[No title]');
 				}
 
                 // collect old items from `extraData`? X
