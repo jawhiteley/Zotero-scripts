@@ -33,31 +33,17 @@
 //%a = first author surname
 //%y = year
 //%t = first word of title
+//%p = start page       //jaw
+//%b = abbrev. source?  //jaw
 var citeKeyFormat = "%a:%y.%t";     //jaw - custom format for auto-generated keys
-var citeKeyField  = "extra";        //jaw - which Zotero field contains existing keys?
-/*jaw: 
- * Should I really be using the 'extra' field for this, or is there something more appropriate?
- *   ID (is there an 'id' field that can be manually edited?  Location in Archive?  Place? A special Note?
- *   What are some of these fields for, anyway?
- *   The 'extra' field is ok for miscellaneous stuff, but some citation styles may actually use this info in the bibliography (BibTeX styles certainly do).
- * I think I actually prefer `location in archive`, although this would not work if I had a different system for physical copies.
- * At least the option to change fields is simple (above).  Migrating existing data however, is not:(
- */
-
-/*jaw: CURRENTLY UNUSED:  for planned features */
+var citeKeyField  = "extra";        //jaw - which field in Zotero contains existing keys?
 /*jaw 
  * Prefix & suffix to wrap cite key in when in a misc. field like 'extra'.
  * This would make it easier to find anywhere in the field, and avoid ambiguity with other content
  * CURRENTLY UNUSED.  Either: wrap the cite key and look for it anywhere, or rely on it being the first line.
  */
-var citeKeyPrefix = "";             //jaw
+var citeKeyPrefix = "bibtex: ?";             //jaw
 var citeKeySuffix = "";             //jaw
-//jaw: options for auto-generated cite keys
-//%p = start page       //jaw
-//%b = abbrev. source?  //jaw
-var citeKeyMaxAuthors = 2;          //jaw: max. # authors in cite keys
-var citeKeyAuthorSep  = "+";        //jaw: string places between multiple authors in cite key
-var citeKeyAuthorsMany = citeKeyAuthorSep;   //jaw: string used after first author name if number of authors exceeds Max.
 
 
 function detectImport() {
