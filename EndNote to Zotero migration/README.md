@@ -26,7 +26,7 @@ I recommend testing with a small group of records of various types to make sure 
 Feel free to adapt it to your needs, but be aware that these are designed for my custom EndNote set-up.
 
 
-# My Custom EndNote set-up
+## My Custom EndNote set-up
 
 * I used the 'Label' field in EndNote to store stable citation keys (generated automatically using AppleScript and/or manually edited).
 * I used the 'Custom 7' field for 'Location' of the full-text document: i.e., where is the document, and what format is it in? (e.g., electronic, paper, library, inter-library loan, etc.)
