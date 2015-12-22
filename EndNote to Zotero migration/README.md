@@ -12,6 +12,7 @@ I recommend testing with a small group of records of various types to make sure 
 2. Convert EndNote groups (folders) into keywords: `EndNote folders -> keywords.scpt`
   * AppleScript: Convert EndNote folders / groups to keywords with a custom prefix.
     This allows you to take your groups with you.
+  * in progress.
 3. Export using to custom RIS output style: `RIS export to Zotero - jaw.ens`
   * Custom output style for EndNote.
   * Based on RIS, but handles my custom fields (labels, location, context).
