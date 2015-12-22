@@ -36,6 +36,10 @@ Translator.setTranslator("19bb6ee5-f7c3-4fd9-9b4a-35fb8b6220b1"); // import the 
  * Research Notes -> note
  * */
 
+var prefixFolder  = "> " // not actually used, but for reference: these are added in EndNote.
+var prefixContext = "# "
+var prefixLoc     = "@"
+
 
 function detectImport() {
 	var line;
@@ -202,6 +206,7 @@ var fieldMap = {
 	L1:"attachments/PDF",
 	L2:"attachments/HTML",
 	L4:"attachments/other",
+    LB:"extra",     // jaw: citation keys
 	N1:"notes",
 	ST:"shortTitle",
 	UR:"url",
@@ -653,7 +658,8 @@ var RISReader = new function() {
 	
 	var RIS_format = /^([A-Z][A-Z0-9]) {1,2}-(?: (.*))?$/, //allow empty entries
 	//list of tags for which we preserve newlines
-		preserveNewLines = ['KW', 'L1', 'L2', 'L3'], //these could use newline as separator
+		preserveNewLines = ['KW', 'K0', 'K1', 'L1', 'L2', 'L3'], //these could use newline as separator
+        // jaw: added custom tags(K0, K1)
 	//keep track of maximum line length so we can make a better call on whether
 	//something should be on a new line or not
 		_maxLineLength = 0;
@@ -1338,6 +1344,17 @@ function processTag(item, tagValue, risEntry) {
             value = 'bibtex: ' + value; // compatible with BBT for Zotero
             zField = ['extra'];
 		break;
+		case "K0":  
+            // jaw - I export "Contexts" / Projects to this field (i.e., why is this in my library?)
+            // prepend should occur for *each item/line* (i.e., after delimiter split in 'tags' case below)
+            value = value.replace(/(^|\r\n?|\n)\s*/g, '\n' + prefixContext);  // prepend custom prefix to each line
+            zField = ['tags'];
+		break;
+		case "K1":  
+            // jaw - I export "Location" / format to this field (i.e., where is the full-text document?)
+            value = value.replace(/(^|\r\n?|\n)\s*/g, '\n' + prefixLoc);  // prepend custom prefix to each line
+            zField = ['tags'];
+		break;
 	}
 
 	//zField based manipulations
@@ -1395,7 +1412,7 @@ function processTag(item, tagValue, risEntry) {
 				for(var i=0, n=values.length; i<n; i++) {
 					//support for EndNote's relative paths
 					// url = values[i].replace(/^internal-pdf:\/\//i,'PDF/').trim();
-                  // also replace sub-folder: custom change - jaw
+                    // also replace sub-folder: custom change - jaw
 					url = values[i].replace(/^internal-pdf:\/\/.*\//i,'Attachments/').trim();
 					if(!url) continue;
 					
