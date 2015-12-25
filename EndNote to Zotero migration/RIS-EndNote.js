@@ -31,14 +31,12 @@ var Translator = Zotero.loadTranslator("import");
 Translator.setTranslator("19bb6ee5-f7c3-4fd9-9b4a-35fb8b6220b1"); // import the default RIS translator
 
 /* TODO:  
- * Automatically recode certain keywords? 'Context', 'Location'
- * Note -> note
- * Research Notes -> note
+ * Choose keyword prefixes.
  * */
 
-var prefixFolder  = "> " // not actually used, but for reference: these are added in EndNote.
-var prefixContext = "# "
-var prefixLoc     = "@"
+var prefixFolder  = ">"   // not actually used here, but for reference: these are added in EndNote.
+var prefixContext = "#"   // "@"
+var prefixLoc     = "@"   // "_"
 
 
 function detectImport() {
@@ -437,6 +435,8 @@ var degenerateImportFieldMap = {
 		"__default": "journalAbbreviation",
 		conferenceName: ["conferencePaper"]
 	},
+    K0: "tags",  // jaw: 'Location'/format of attachments
+    K1: "tags",  // jaw: 'Context'/project
 	LB: "extra", // "unsupported/Label", // jaw
 	M1: {
 		"__default":"extra",
@@ -1345,17 +1345,23 @@ function processTag(item, tagValue, risEntry) {
             zField = ['extra'];
 		break;
 		case "K0":  
+            // jaw - I export "Location" / format to this field (i.e., where is the full-text document?)
+            value = value.replace(/(^|\r\n?|\n)\s*/g, '\n' + prefixLoc);  // prepend custom prefix to each line
+            zField = ['tags'];
+		break;
+		case "K1":  
             // jaw - I export "Contexts" / Projects to this field (i.e., why is this in my library?)
             // prepend should occur for *each item/line* (i.e., after delimiter split in 'tags' case below)
             value = value.replace(/(^|\r\n?|\n)\s*/g, '\n' + prefixContext);  // prepend custom prefix to each line
             zField = ['tags'];
 		break;
-		case "K1":  
-            // jaw - I export "Location" / format to this field (i.e., where is the full-text document?)
-            value = value.replace(/(^|\r\n?|\n)\s*/g, '\n' + prefixLoc);  // prepend custom prefix to each line
-            zField = ['tags'];
-		break;
 	}
+
+    if(tag=="N1") {  // jaw - add title to distinguish Notes from Research Notes
+      // EndNote's "Notes" field (N1) usually collects extra citation data, whereas "Research Notes" (RN) contains my actual notes / annotations.
+      // Notes can also have their own tags! Not sure how to add them here. This is probably easier for now.
+      value = "<p id='[notes]' title='[EndNote]' style='color: #666666; text-align: right;'>[Citation Notes]</p>" + value;  // font-style: italic; 
+    }
 
 	//zField based manipulations
 	if(processFields){
