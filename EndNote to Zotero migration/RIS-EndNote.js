@@ -1359,8 +1359,12 @@ function processTag(item, tagValue, risEntry) {
 
     if(tag=="N1") {  // jaw - add title to distinguish Notes from Research Notes
       // EndNote's "Notes" field (N1) usually collects extra citation data, whereas "Research Notes" (RN) contains my actual notes / annotations.
-      // Notes can also have their own tags! Not sure how to add them here. This is probably easier for now.
+      // Notes can also have their own tags! Not sure how to add them here - see 'notes.push' for a tagged note containing unsupported / unknown fields, below.
+      // This is probably easier for now. At least it allows all such notes to be easily identified and collected (for tagging later).
       value = "<p id='[notes]' title='[EndNote]' style='color: #666666; text-align: right;'>[Citation Notes]</p>" + value;  // font-style: italic; 
+      // item.notes.push({note: value.trim(), tags: ['_EndNote']}); // creates a duplicate note with the tag :(
+      // value = {note: value.trim(), tags: ['_EndNote']}; // error/ :(
+      // value = "";   // This just creates an empty note :(
     }
 
 	//zField based manipulations
