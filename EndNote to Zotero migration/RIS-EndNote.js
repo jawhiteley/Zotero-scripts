@@ -34,9 +34,9 @@ Translator.setTranslator("19bb6ee5-f7c3-4fd9-9b4a-35fb8b6220b1"); // import the 
  * Choose keyword prefixes.
  * */
 
-var prefixFolder  = ">"   // not actually used here, but for reference: these are added in EndNote.
-var prefixContext = "#"   // "@"
-var prefixLoc     = "@"   // "_"
+var prefixFolder  = "> "   // not actually used here, but for reference: these are added in EndNote.
+var prefixContext = "\\ "  // a literal backslash has to be escaped: '\\'
+var prefixLoc     = "@"
 
 
 function detectImport() {
@@ -207,7 +207,11 @@ var fieldMap = {
     LB:"extra",     // jaw: citation keys
 	N1:"notes",
 	ST:"shortTitle",
-	UR:"url",
+	// UR:"url",
+	UR: { 
+      "url": ["webpage"]  // jaw - only treat URLs as a citation URL for web pages.
+        // most URLs from EndNote should be treated as a list of links (like "L2"): see entry in degenerateImportFieldMap, below.
+    },
 	Y2:"accessDate",
 
 	//type specific
@@ -378,7 +382,7 @@ var fieldMap = {
 	},
 	SE: {
 		"__default": "section",	//though this can refer to pages, start page, etc. for some types. Zotero does not support any of those combinations, however.
-		"__exclude": ["case"]
+		"__exclude": ["case", "book", "bookSection"]  // jaw - "book", "bookSection"
 	},
 	SN: {
 		"__default":"ISBN",
@@ -391,7 +395,9 @@ var fieldMap = {
 		codePages:["bill"], //bill
 		numPages:["book", "thesis", "manuscript"], //manuscript not really in spec
 		firstPage:["case"],
-		runningTime:["film"]
+		runningTime:["film"],
+        // "notes":["computerProgram"] // jaw - Description
+        "__exclude":["computerProgram"] // jaw - Description
 	},
 	SV: {
 		seriesNumber: ["bookSection"],
@@ -402,7 +408,7 @@ var fieldMap = {
 		codeNumber:["statute"],
 		codeVolume:["bill"],
 		reporterVolume:["case"],
-		"__exclude":["patent", "webpage"]
+		"__exclude":["patent", "webpage", "thesis"]  // jaw - added 'thesis'
 	}
 };
 
@@ -443,9 +449,12 @@ var degenerateImportFieldMap = {
 		issue: ["journalArticle"], //EndNote hack
 		numberOfVolumes: ["bookSection"],	//EndNote exports here instead of IS
 		accessDate: ["webpage"]		//this is access date when coming from EndNote
-	},
+    },
 	M2: "extra", //not in spec
-	M3: "DOI",
+	M3: {
+        "__default":"DOI",    // jaw: added "__default"
+        "unsupported/Type": ["journalArticle"]    // jaw - EndNote
+    },
 	N2: "abstractNote",
 	NV: "numberOfVolumes",
 	OP: {
@@ -458,8 +467,14 @@ var degenerateImportFieldMap = {
 	},
 	RN: "notes",
 	SE: {
-		"unsupported/File Date": ["case"]
+        // jaw: these won't actually be triggered if there is a "__default" set in main fieldMap above -- unless the types here also have "__exclude" above.
+		"unsupported/File Date": ["case"],
+		"unsupported/Pages": ["book"],  // jaw
+		"unsupported/Chapter": ["bookSection"]  // jaw
 	},
+    SP: {
+          "unsupported/Description": ["computerProgram"] // jaw - Description
+        },
 	T1: fieldMap["TI"],
 	T2: "backupPublicationTitle", //most item types should be covered above
 	T3: {
@@ -467,9 +482,11 @@ var degenerateImportFieldMap = {
 	},
 	TA: "unsupported/Translated Author",
 	TT: "unsupported/Translated Title",
+    UR: "attachments/other",  // jaw: Most URLs in EndNote should be treated as a list of links to be attached, not for citation.
 	VL: {
 		"unsupported/Patent Version Number":['patent'],
-		accessDate: ["webpage"]	//technically access year according to EndNote
+		"unsupported/Degree": ['thesis'],    // jaw - EndNote
+		accessDate: ["webpage"]	// technically access year according to EndNote
 	},
 	Y1: fieldMap["DA"] // Old RIS spec
 };
@@ -658,8 +675,8 @@ var RISReader = new function() {
 	
 	var RIS_format = /^([A-Z][A-Z0-9]) {1,2}-(?: (.*))?$/, //allow empty entries
 	//list of tags for which we preserve newlines
-		preserveNewLines = ['KW', 'K0', 'K1', 'L1', 'L2', 'L3'], //these could use newline as separator
-        // jaw: added custom tags(K0, K1)
+		preserveNewLines = ['KW', 'K0', 'K1', 'L1', 'L2', 'L3', 'UR'], //these could use newline as separator
+        // jaw: added custom tags(K0, K1), and UL
 	//keep track of maximum line length so we can make a better call on whether
 	//something should be on a new line or not
 		_maxLineLength = 0;
@@ -1420,6 +1437,8 @@ function processTag(item, tagValue, risEntry) {
 				var values = value.split('\n');
 				var title, mimeType, url;
 				for(var i=0, n=values.length; i<n; i++) {
+                  // Some old entries have weird "<Go to ISI>://" URLs, which are preventing anything after from being imported. Skip them.
+                  url = values[i].replace(/^\<Go to ISI\>:\/\//i,'').trim(); // jaw
 					//support for EndNote's relative paths
 					// url = values[i].replace(/^internal-pdf:\/\//i,'PDF/').trim();
                     // also replace sub-folder: custom change - jaw
