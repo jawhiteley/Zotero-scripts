@@ -20,10 +20,10 @@
 	"lastUpdated": "2015-12-20 16:00:00"
 }
 
-/*jaw   Jonathan Whiteley   jonathan[cot]whiteley[at]mail[dot]mcgill[dot]ca
+/*jaw   Jonathan Whiteley   jonathan[dot]whiteley[at]mail[dot]mcgill[dot]ca
  * This is a modified version of the RIS translator included in Zotero 4.0.26.3:  32d59d2d-b65a-4da4-b0a3-bdd3cfb979e7
  * to work better with EndNote Exports (reduce the need to edit much of EndNote's "Output styles")
- * [comments in the header section above will cause the translator to no load: I generated a new ID, increased the priority (lower value), and changed "inRepository" to false.
+ * [comments in the header section above will cause the translator to not load: I generated a new ID, increased the priority (lower value), and changed "inRepository" to false.
  * Reads LB field into "bibtex: <value>" within the `extra` field, to correspond to BBT useage (https://zotplus.github.io/better-bibtex/citation-keys.html).
  */
 
